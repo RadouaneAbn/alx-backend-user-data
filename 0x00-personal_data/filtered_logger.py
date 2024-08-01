@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """ filtered_logger module """
 
-from typing import List
 import re
 import logging
-import mysql
-import mysql.connector
 import os
+from typing import List
+import mysql.connector
 
 PII_FIELDS = ("password", "email", "name", "ssn", "phone")
 
