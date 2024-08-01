@@ -54,24 +54,24 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     This function returns a connector to the database
     """
-    psw = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
-    username = os.environ.get('PERSONAL_DATA_DB_USERNAME', "root")
-    host = os.environ.get('PERSONAL_DATA_DB_HOST', 'localhost')
-    db_name = os.environ.get('PERSONAL_DATA_DB_NAME')
+    user = os.getenv('PERSONAL_DATA_DB_USERNAME') or "root"
+    passwd = os.getenv('PERSONAL_DATA_DB_PASSWORD') or ""
+    host = os.getenv('PERSONAL_DATA_DB_HOST') or "localhost"
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
     conn = mysql.connector.connect(
+        user=user,
+        password=passwd,
         host=host,
-        database=db_name,
-        user=username,
-        password=psw)
+        database=db_name)
     return conn
 
 
 def main() -> None:
     """ The main function """
     db = get_db()
+    logger = get_logger()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
-    logger = get_logger()
     for row in cursor:
         message = f"name={row[0]}; email={row[1]}; phone={row[2]}; " +\
             f"ssn={row[3]}; password={row[4]}; ip={row[5]}; " +\
