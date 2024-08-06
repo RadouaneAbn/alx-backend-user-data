@@ -2,6 +2,7 @@
 """
 Route module for the API
 """
+import os
 from os import getenv
 from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
@@ -39,15 +40,15 @@ def forbidden(error) -> str:
 
 
 @app.before_request
-def before_request_check():
+def before_request_check() -> None:
     """ This function will be executed before every request """
+    if auth is None:
+        return
     forbidden_list = [
         '/api/v1/status/',
         '/api/v1/unauthorized/',
         '/api/v1/forbidden/'
     ]
-    if auth is None:
-        return
     if not auth.require_auth(request.path, forbidden_list):
         return
     if auth.authorization_header(request) is None:
