@@ -2,7 +2,7 @@
 
 """ auth Module """
 
-from flask import request, Request
+from flask import request
 from typing import List, TypeVar
 import re
 
