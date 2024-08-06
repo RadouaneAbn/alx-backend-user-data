@@ -28,6 +28,14 @@ def stats() -> str:
 
 @app_views.route("/unauthorized", methods=['GET'], strict_slashes=False)
 def unauthorized_route() -> None:
-    """ This route raises unauthorized error
+    """ This route raises unauthorized request
     """
     abort(401)
+
+
+@app_views.route("/forbidden", methods=['GET'], strict_slashes=False)
+def forbidden_route() -> None:
+    """ This route raises forbidden request
+    """
+    abort(403)
+
