@@ -2,7 +2,7 @@
 
 """ auth Module """
 
-from flask import request
+from flask import request, Request
 from typing import List, TypeVar
 import re
 
@@ -21,7 +21,11 @@ class Auth:
 
     def authorization_header(self, request=None) -> str:
         """ authorization_header """
-        return None
+        if request is None:
+            return None
+        ot = request.headers.get("Authorization", None)
+        print(f"\n\n{ot}\n\n")
+        return ot
 
     def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
         """ current_user """
