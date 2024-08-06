@@ -15,7 +15,11 @@ class Auth:
             return True
         clean_path = re.escape(path)
         for ex_path in excluded_paths:
-            if re.match(f"^{clean_path}/?$", ex_path):
+            if ex_path.endswith("*"):
+                new_path = ex_path[:-1]
+                if re.search(f"^{new_path}", clean_path):
+                    return False
+            elif re.match(f"^{clean_path}/?$", ex_path):
                 return False
         return True
 
