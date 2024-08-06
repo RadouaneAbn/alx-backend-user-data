@@ -38,4 +38,3 @@ def forbidden_route() -> None:
     """ This route raises forbidden request
     """
     abort(403)
-
