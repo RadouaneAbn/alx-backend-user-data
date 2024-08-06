@@ -4,6 +4,7 @@ from api.v1.auth.auth import Auth
 from models.user import User
 from typing import Tuple, TypeVar
 import base64
+import re
 
 
 class BasicAuth(Auth):
@@ -42,7 +43,8 @@ class BasicAuth(Auth):
             or type(decoded_base64_authorization_header) != str\
                 or ":" not in decoded_base64_authorization_header:
             return (None, None)
-        return tuple(decoded_base64_authorization_header.split(":"))
+        return tuple(re.match(r"^([^:]*):(.*)$",
+                              decoded_base64_authorization_header).groups())
 
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str
