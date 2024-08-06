@@ -48,7 +48,7 @@ def before_request_check():
         forbidden_list = [
             "/api/v1/status/",
             "/api/v1/unauthorized/",
-            "/api/v1/forbidden/"
+            "/api/v1/forbidden/",
         ]
         if auth.require_auth(request.path, forbidden_list):
             if auth.authorization_header(request) is None:

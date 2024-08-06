@@ -4,7 +4,6 @@ from api.v1.auth.auth import Auth
 from models.user import User
 from typing import Tuple, TypeVar
 import base64
-import binascii
 
 
 class BasicAuth(Auth):
@@ -32,7 +31,7 @@ class BasicAuth(Auth):
             return base64.b64decode(
                 base64_authorization_header
             ).decode("utf-8")
-        except binascii.Error:
+        except Exception:
             return None
 
     def extract_user_credentials(
@@ -61,3 +60,12 @@ class BasicAuth(Auth):
         if not user or not user[0].is_valid_password(user_pwd):
             return None
         return user[0]
+
+    def current_user(self, request=None) -> TypeVar('User'):  # type: ignore
+        """ This method is basic authentication method """
+        auth_key = self.authorization_header(request)
+        auth = self.extract_base64_authorization_header(auth_key)
+        decoded_auth = self.decode_base64_authorization_header(auth)
+        email, pwd = self.extract_user_credentials(decoded_auth)
+        user = self.user_object_from_credentials(email, pwd)
+        return user
