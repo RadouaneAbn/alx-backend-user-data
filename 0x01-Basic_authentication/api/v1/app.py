@@ -20,7 +20,7 @@ if auth_type == "auth":
 
 
 @app.before_request
-def before_request():
+def before_request() -> None:
     """ This function will be executed before every request """
     forbidden_list = [
         '/api/v1/status/',
