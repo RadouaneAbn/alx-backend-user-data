@@ -19,24 +19,6 @@ if auth_type == "auth":
     auth = Auth()
 
 
-@app.before_request
-def before_request() -> None:
-    """ This function will be executed before every request """
-    forbidden_list = [
-        '/api/v1/status/',
-        '/api/v1/unauthorized/',
-        '/api/v1/forbidden/'
-    ]
-    if auth is None:
-        return
-    if not auth.require_auth(request.path, forbidden_list):
-        return
-    if auth.authorization_header(request) is None:
-        abort(401)
-    if auth.current_user(request) is None:
-        abort(403)
-
-
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -54,6 +36,24 @@ def unauthorized(error) -> str:
 def forbidden(error) -> str:
     """ Forbidden error handler """
     return jsonify({"error": "Forbidden"}), 403
+
+
+@app.before_request
+def before_request_check():
+    """ This function will be executed before every request """
+    forbidden_list = [
+        '/api/v1/status/',
+        '/api/v1/unauthorized/',
+        '/api/v1/forbidden/'
+    ]
+    if auth is None:
+        return
+    if not auth.require_auth(request.path, forbidden_list):
+        return
+    if auth.authorization_header(request) is None:
+        abort(401)
+    if auth.current_user(request) is None:
+        abort(403)
 
 
 if __name__ == "__main__":
