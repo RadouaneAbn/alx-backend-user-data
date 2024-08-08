@@ -28,7 +28,7 @@ class Base():
             self.created_at = datetime.strptime(kwargs.get('created_at'),
                                                 TIMESTAMP_FORMAT)
         else:
-            self.created_at = datetime.utcnow()
+            self.created_at = datetime.now()
         if kwargs.get('updated_at') is not None:
             self.updated_at = datetime.strptime(kwargs.get('updated_at'),
                                                 TIMESTAMP_FORMAT)
