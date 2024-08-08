@@ -9,7 +9,7 @@ from models.user_session import UserSession
 class SessionDBAuth(SessionExpAuth):
     """ SessionDBAuth class
     """
-    def create_session(self, user_id=None):
+    def create_session(self, user_id=None) -> str:
         """ This method creates a session """
         if user_id is None:
             return None
@@ -24,7 +24,7 @@ class SessionDBAuth(SessionExpAuth):
         user_session.save()
         return session_id
 
-    def user_id_for_session_id(self, session_id=None):
+    def user_id_for_session_id(self, session_id=None) -> str:
         """ This method returns a user_id
         """
         if session_id is None:
@@ -44,7 +44,7 @@ class SessionDBAuth(SessionExpAuth):
             return None
         return user_session.user_id
 
-    def destroy_session(self, request=None):
+    def destroy_session(self, request=None) -> str:
         """ This method destroies a session
         """
         if request is None:
