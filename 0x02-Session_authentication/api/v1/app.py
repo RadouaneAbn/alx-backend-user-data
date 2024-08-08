@@ -52,7 +52,6 @@ def before_request_check():
     """ This function will be executed before every request """
     if auth is not None:
         excluded_paths = [
-            # "/api/v1/status/",
             "/api/v1/unauthorized/",
             "/api/v1/forbidden/",
             "/api/v1/stat*",
