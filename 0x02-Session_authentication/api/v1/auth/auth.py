@@ -40,5 +40,5 @@ class Auth:
         """ This method returns a session id from cookies """
         if request is None:
             return None
-        session_id = request.cookies.get(SESSION_NAME)
+        session_id = request.cookies.get(SESSION_NAME, None)
         return session_id
