@@ -12,6 +12,7 @@ class SessionExpAuth(SessionAuth):
     """ SessionExpAuth class that inherits from SessionAuth """
     def __init__(self) -> None:
         """ init method that initiat an instance of the class """
+        super().__init__()
         try:
             self.session_duration = int(SESSION_DURATION)
         except Exception:
@@ -25,9 +26,7 @@ class SessionExpAuth(SessionAuth):
         session_dict = {}
         session_dict["user_id"] = user_id
         session_dict["created_at"] = datetime.now()
-        self.user_id_by_session_id[session_id] = {
-            "session dictionary": session_dict
-        }
+        self.user_id_by_session_id[session_id] = session_dict
         return session_id
 
     def user_id_for_session_id(self, session_id=None) -> str:
@@ -35,14 +34,13 @@ class SessionExpAuth(SessionAuth):
         if session_id is None:
             return None
         session_dict = self.user_id_by_session_id.get(session_id, None)
-        if session_id is None:
+        if session_dict is None:
             return None
-        session_dict = session_dict["session dictionary"]
         if self.session_duration <= 0:
-            return session_dict["user_id"]
+            return session_dict.get("user_id")
         if not session_dict.get("created_at", None):
             return None
         if session_dict["created_at"] +\
                 timedelta(seconds=self.session_duration) < datetime.now():
             return None
-        return session_dict["user_id"]
+        return session_dict.get("user_id")
