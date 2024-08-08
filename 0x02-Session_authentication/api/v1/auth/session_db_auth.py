@@ -38,7 +38,6 @@ class SessionDBAuth(SessionExpAuth):
         user_session = user_session[0]
         if self.session_duration <= 0:
             return user_session.user_id
-        print("User:", user_session.__dict__)
         if user_session.created_at +\
                 timedelta(seconds=self.session_duration) < datetime.now():
             return None
