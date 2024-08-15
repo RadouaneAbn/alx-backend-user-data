@@ -6,7 +6,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from user import User
-
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 from user import Base
 
 
@@ -36,4 +37,17 @@ class DB:
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
+        return user
+
+    def find_user_by(self, **kwargs):
+        """ This method finds a user usong keyword arguments """
+        for k, v in kwargs.items():
+            if not hasattr(User, k):
+                raise InvalidRequestError
+            user = self._session.query(User).filter(
+                getattr(User, k) == v).first()
+            if user:
+                break
+        if not user:
+            raise NoResultFound
         return user
