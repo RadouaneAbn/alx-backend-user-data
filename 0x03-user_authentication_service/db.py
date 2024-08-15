@@ -41,13 +41,9 @@ class DB:
 
     def find_user_by(self, **kwargs: dict) -> User:
         """ This method finds a user usong keyword arguments """
-        for k, v in kwargs.items():
-            if not hasattr(User, k):
-                raise InvalidRequestError
-            user = self._session.query(User).filter(
-                getattr(User, k) == v).first()
-            if user:
-                break
+        if not all(hasattr(User, key) for key in kwargs.keys()):
+            raise InvalidRequestError
+        user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
             raise NoResultFound
         return user
