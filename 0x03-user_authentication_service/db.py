@@ -9,6 +9,7 @@ from user import User
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base
+from typing import Dict
 
 
 class DB:
@@ -39,7 +40,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs: dict) -> User:
+    def find_user_by(self, **kwargs: Dict) -> User:
         """ This method finds a user usong keyword arguments """
         if not all(hasattr(User, key) for key in kwargs.keys()):
             raise InvalidRequestError
