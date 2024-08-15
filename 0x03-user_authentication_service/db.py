@@ -39,7 +39,7 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: dict) -> User:
         """ This method finds a user usong keyword arguments """
         for k, v in kwargs.items():
             if not hasattr(User, k):
