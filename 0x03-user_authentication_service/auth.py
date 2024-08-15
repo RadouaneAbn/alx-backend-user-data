@@ -48,3 +48,13 @@ class Auth:
         except NoResultFound:
             pass
         return False
+
+    def create_session(self, email: str) -> str:
+        """ This method create a session for a user if found """
+        try:
+            user = self._db.find_user_by(email=email)
+            user.session_id = _generate_uuid()
+            self._db._session.commit()
+            return user.session_id
+        except NoResultFound:
+            pass
