@@ -9,6 +9,7 @@ from user import User
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from user import Base
+from typing import Dict
 
 
 class DB:
@@ -48,7 +49,7 @@ class DB:
             raise NoResultFound()
         return user
 
-    def update_user(self, user_id, **kwargs) -> None:
+    def update_user(self, user_id: str, **kwargs: Dict) -> None:
         """ This method updates a user """
         user = self.find_user_by(id=user_id)
         if not all(hasattr(User, key) for key in kwargs.keys()):
