@@ -40,11 +40,11 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs: Dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """ This method finds a user usong keyword arguments """
         if not all(hasattr(User, key) for key in kwargs.keys()):
-            raise InvalidRequestError
+            raise InvalidRequestError()
         user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
-            raise NoResultFound
+            raise NoResultFound()
         return user
