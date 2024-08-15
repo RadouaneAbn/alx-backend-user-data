@@ -49,11 +49,11 @@ class DB:
             raise NoResultFound()
         return user
 
-    def update_user(self, user_id: str, **kwargs: Dict) -> None:
+    def update_user(self, user_id: int, **kwargs: Dict) -> None:
         """ This method updates a user """
         user = self.find_user_by(id=user_id)
+        if not all(hasattr(User, key) for key in kwargs.keys()):
+            raise ValueError()
         for k, v in kwargs.items():
-            if not hasattr(user, k):
-                raise ValueError()
             setattr(user, k, v)
         return None
