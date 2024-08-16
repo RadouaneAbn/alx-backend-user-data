@@ -62,7 +62,8 @@ def profile() -> str:
 
 
 @app.post("/reset_password")
-def get_reset_password_token():
+def get_reset_password_token() -> str:
+    """ This route gets a password reset token for a user """
     email = request.form.get("email")
     try:
         token = AUTH.get_reset_password_token(email)
